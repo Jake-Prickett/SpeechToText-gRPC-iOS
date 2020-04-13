@@ -3,25 +3,33 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		45243516244486C800EF8317 /* cloud_speech.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45243514244486C800EF8317 /* cloud_speech.grpc.swift */; };
+		45243517244486C800EF8317 /* cloud_speech.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45243515244486C800EF8317 /* cloud_speech.pb.swift */; };
+		452435192444878400EF8317 /* status.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452435182444878400EF8317 /* status.pb.swift */; };
+		4524351B244487A900EF8317 /* operations.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4524351A244487A900EF8317 /* operations.grpc.swift */; };
+		4524351D244488CA00EF8317 /* operations.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4524351C244488CA00EF8317 /* operations.pb.swift */; };
 		45EA4F3024439C2300622606 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EA4F2F24439C2300622606 /* AppDelegate.swift */; };
 		45EA4F3224439C2300622606 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EA4F3124439C2300622606 /* SceneDelegate.swift */; };
 		45EA4F3424439C2300622606 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EA4F3324439C2300622606 /* ViewController.swift */; };
-		45EA4F3724439C2300622606 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 45EA4F3524439C2300622606 /* Main.storyboard */; };
 		45EA4F3924439C2400622606 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 45EA4F3824439C2400622606 /* Assets.xcassets */; };
 		45EA4F3C24439C2400622606 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 45EA4F3A24439C2400622606 /* LaunchScreen.storyboard */; };
 		90F12C7BFCE27B60F4C455D5 /* Pods_SpeechToText_gRPC_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BB47463A962540B72022723 /* Pods_SpeechToText_gRPC_iOS.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		45243514244486C800EF8317 /* cloud_speech.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cloud_speech.grpc.swift; sourceTree = "<group>"; };
+		45243515244486C800EF8317 /* cloud_speech.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cloud_speech.pb.swift; sourceTree = "<group>"; };
+		452435182444878400EF8317 /* status.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = status.pb.swift; sourceTree = "<group>"; };
+		4524351A244487A900EF8317 /* operations.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = operations.grpc.swift; sourceTree = "<group>"; };
+		4524351C244488CA00EF8317 /* operations.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = operations.pb.swift; sourceTree = "<group>"; };
 		45EA4F2C24439C2300622606 /* SpeechToText-gRPC-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SpeechToText-gRPC-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		45EA4F2F24439C2300622606 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		45EA4F3124439C2300622606 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		45EA4F3324439C2300622606 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		45EA4F3624439C2300622606 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		45EA4F3824439C2400622606 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		45EA4F3B24439C2400622606 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		45EA4F3D24439C2400622606 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -42,6 +50,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		45243511244481B700EF8317 /* Protos */ = {
+			isa = PBXGroup;
+			children = (
+				45243514244486C800EF8317 /* cloud_speech.grpc.swift */,
+				45243515244486C800EF8317 /* cloud_speech.pb.swift */,
+				4524351A244487A900EF8317 /* operations.grpc.swift */,
+				4524351C244488CA00EF8317 /* operations.pb.swift */,
+				452435182444878400EF8317 /* status.pb.swift */,
+			);
+			path = Protos;
+			sourceTree = "<group>";
+		};
 		45EA4F2324439C2300622606 = {
 			isa = PBXGroup;
 			children = (
@@ -63,10 +83,10 @@
 		45EA4F2E24439C2300622606 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				45243511244481B700EF8317 /* Protos */,
 				45EA4F2F24439C2300622606 /* AppDelegate.swift */,
 				45EA4F3124439C2300622606 /* SceneDelegate.swift */,
 				45EA4F3324439C2300622606 /* ViewController.swift */,
-				45EA4F3524439C2300622606 /* Main.storyboard */,
 				45EA4F3824439C2400622606 /* Assets.xcassets */,
 				45EA4F3A24439C2400622606 /* LaunchScreen.storyboard */,
 				45EA4F3D24439C2400622606 /* Info.plist */,
@@ -80,7 +100,6 @@
 				B4D057349E6BFEE6BE2D0FFE /* Pods-SpeechToText-gRPC-iOS.debug.xcconfig */,
 				E8E493D0DC00CC6697CDDB7B /* Pods-SpeechToText-gRPC-iOS.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -154,7 +173,6 @@
 			files = (
 				45EA4F3C24439C2400622606 /* LaunchScreen.storyboard in Resources */,
 				45EA4F3924439C2400622606 /* Assets.xcassets in Resources */,
-				45EA4F3724439C2300622606 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,21 +227,18 @@
 			files = (
 				45EA4F3424439C2300622606 /* ViewController.swift in Sources */,
 				45EA4F3024439C2300622606 /* AppDelegate.swift in Sources */,
+				4524351D244488CA00EF8317 /* operations.pb.swift in Sources */,
+				45243516244486C800EF8317 /* cloud_speech.grpc.swift in Sources */,
+				4524351B244487A900EF8317 /* operations.grpc.swift in Sources */,
 				45EA4F3224439C2300622606 /* SceneDelegate.swift in Sources */,
+				452435192444878400EF8317 /* status.pb.swift in Sources */,
+				45243517244486C800EF8317 /* cloud_speech.pb.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		45EA4F3524439C2300622606 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				45EA4F3624439C2300622606 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		45EA4F3A24439C2400622606 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -285,7 +300,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -339,7 +354,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
