@@ -14,148 +14,134 @@ import AVFoundation
 let SAMPLE_RATE: Double = 16000
 
 protocol AudioControllerDelegate {
-  func processSampleData(_ data:Data) -> Void
+    func processSampleData(_ data:Data) -> Void
 }
 
 class AudioController {
-  var remoteIOUnit: AudioComponentInstance? // optional to allow it to be an inout argument
-  var delegate : AudioControllerDelegate!
+    var remoteIOUnit: AudioComponentInstance?
+    var delegate : AudioControllerDelegate!
 
-  static var sharedInstance = AudioController()
+    static var sharedInstance = AudioController()
 
-  deinit {
-    AudioComponentInstanceDispose(remoteIOUnit!);
-  }
-
-  func prepare(specifiedSampleRate: Int) -> OSStatus {
-
-    var status = noErr
-
-    let session = AVAudioSession.sharedInstance()
-    do {
-        try session.setCategory(.record)
-      try session.setPreferredIOBufferDuration(10)
-    } catch {
-      return -1
+    deinit {
+        AudioComponentInstanceDispose(remoteIOUnit!);
     }
 
-    var sampleRate = session.sampleRate
-    print("hardware sample rate = \(sampleRate), using specified rate = \(specifiedSampleRate)")
-    sampleRate = Double(specifiedSampleRate)
+    func prepare(specifiedSampleRate: Int) {
 
-    // Describe the RemoteIO unit
-    var audioComponentDescription = AudioComponentDescription()
-    audioComponentDescription.componentType = kAudioUnitType_Output;
-    audioComponentDescription.componentSubType = kAudioUnitSubType_RemoteIO;
-    audioComponentDescription.componentManufacturer = kAudioUnitManufacturer_Apple;
-    audioComponentDescription.componentFlags = 0;
-    audioComponentDescription.componentFlagsMask = 0;
+        var status = noErr
 
-    // Get the RemoteIO unit
-    let remoteIOComponent = AudioComponentFindNext(nil, &audioComponentDescription)
-    status = AudioComponentInstanceNew(remoteIOComponent!, &remoteIOUnit)
-    if (status != noErr) {
-      return status
+        let session = AVAudioSession.sharedInstance()
+        try? session.setCategory(.record)
+        try? session.setPreferredIOBufferDuration(10)
+
+
+        var sampleRate = session.sampleRate
+        print("hardware sample rate = \(sampleRate), using specified rate = \(specifiedSampleRate)")
+        sampleRate = Double(specifiedSampleRate)
+
+        // Describe the RemoteIO unit
+        var audioComponentDescription = AudioComponentDescription()
+        audioComponentDescription.componentType = kAudioUnitType_Output;
+        audioComponentDescription.componentSubType = kAudioUnitSubType_RemoteIO;
+        audioComponentDescription.componentManufacturer = kAudioUnitManufacturer_Apple;
+        audioComponentDescription.componentFlags = 0;
+        audioComponentDescription.componentFlagsMask = 0;
+
+        // Get the RemoteIO unit
+        let remoteIOComponent = AudioComponentFindNext(nil, &audioComponentDescription)
+        status = AudioComponentInstanceNew(remoteIOComponent!, &remoteIOUnit)
+
+        let bus1 : AudioUnitElement = 1
+        var oneFlag : UInt32 = 1
+
+        // Configure the RemoteIO unit for input
+        status = AudioUnitSetProperty(remoteIOUnit!,
+                                      kAudioOutputUnitProperty_EnableIO,
+                                      kAudioUnitScope_Input,
+                                      bus1,
+                                      &oneFlag,
+                                      UInt32(MemoryLayout<UInt32>.size));
+
+        // Set format for mic input (bus 1) on RemoteIO's output scope
+        var asbd = AudioStreamBasicDescription()
+        asbd.mSampleRate = sampleRate
+        asbd.mFormatID = kAudioFormatLinearPCM
+        asbd.mFormatFlags = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked
+        asbd.mBytesPerPacket = 2
+        asbd.mFramesPerPacket = 1
+        asbd.mBytesPerFrame = 2
+        asbd.mChannelsPerFrame = 1
+        asbd.mBitsPerChannel = 16
+        status = AudioUnitSetProperty(remoteIOUnit!,
+                                      kAudioUnitProperty_StreamFormat,
+                                      kAudioUnitScope_Output,
+                                      bus1,
+                                      &asbd,
+                                      UInt32(MemoryLayout<AudioStreamBasicDescription>.size))
+
+        // Set the recording callback
+        var callbackStruct = AURenderCallbackStruct()
+        callbackStruct.inputProc = recordingCallback
+        callbackStruct.inputProcRefCon = nil
+        status = AudioUnitSetProperty(remoteIOUnit!,
+                                      kAudioOutputUnitProperty_SetInputCallback,
+                                      kAudioUnitScope_Global,
+                                      bus1,
+                                      &callbackStruct,
+                                      UInt32(MemoryLayout<AURenderCallbackStruct>.size))
+
+        // Initialize the RemoteIO unit
+        AudioUnitInitialize(remoteIOUnit!)
     }
 
-    let bus1 : AudioUnitElement = 1
-    var oneFlag : UInt32 = 1
-
-    // Configure the RemoteIO unit for input
-    status = AudioUnitSetProperty(remoteIOUnit!,
-                                  kAudioOutputUnitProperty_EnableIO,
-                                  kAudioUnitScope_Input,
-                                  bus1,
-                                  &oneFlag,
-                                  UInt32(MemoryLayout<UInt32>.size));
-    if (status != noErr) {
-      return status
+    func start() {
+        prepare(specifiedSampleRate: Int(SAMPLE_RATE))
+        AudioOutputUnitStart(remoteIOUnit!)
     }
 
-    // Set format for mic input (bus 1) on RemoteIO's output scope
-    var asbd = AudioStreamBasicDescription()
-    asbd.mSampleRate = sampleRate
-    asbd.mFormatID = kAudioFormatLinearPCM
-    asbd.mFormatFlags = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked
-    asbd.mBytesPerPacket = 2
-    asbd.mFramesPerPacket = 1
-    asbd.mBytesPerFrame = 2
-    asbd.mChannelsPerFrame = 1
-    asbd.mBitsPerChannel = 16
-    status = AudioUnitSetProperty(remoteIOUnit!,
-                                  kAudioUnitProperty_StreamFormat,
-                                  kAudioUnitScope_Output,
-                                  bus1,
-                                  &asbd,
-                                  UInt32(MemoryLayout<AudioStreamBasicDescription>.size))
-    if (status != noErr) {
-      return status
+    func stop() {
+        AudioOutputUnitStop(remoteIOUnit!)
     }
-
-    // Set the recording callback
-    var callbackStruct = AURenderCallbackStruct()
-    callbackStruct.inputProc = recordingCallback
-    callbackStruct.inputProcRefCon = nil
-    status = AudioUnitSetProperty(remoteIOUnit!,
-                                  kAudioOutputUnitProperty_SetInputCallback,
-                                  kAudioUnitScope_Global,
-                                  bus1,
-                                  &callbackStruct,
-                                  UInt32(MemoryLayout<AURenderCallbackStruct>.size));
-    if (status != noErr) {
-      return status
-    }
-
-    // Initialize the RemoteIO unit
-    return AudioUnitInitialize(remoteIOUnit!)
-  }
-
-  func start() -> OSStatus {
-    return AudioOutputUnitStart(remoteIOUnit!)
-  }
-
-  func stop() -> OSStatus {
-    return AudioOutputUnitStop(remoteIOUnit!)
-  }
 }
 
 func recordingCallback(
-  inRefCon:UnsafeMutableRawPointer,
-  ioActionFlags:UnsafeMutablePointer<AudioUnitRenderActionFlags>,
-  inTimeStamp:UnsafePointer<AudioTimeStamp>,
-  inBusNumber:UInt32,
-  inNumberFrames:UInt32,
-  ioData:UnsafeMutablePointer<AudioBufferList>?) -> OSStatus {
+    inRefCon:UnsafeMutableRawPointer,
+    ioActionFlags:UnsafeMutablePointer<AudioUnitRenderActionFlags>,
+    inTimeStamp:UnsafePointer<AudioTimeStamp>,
+    inBusNumber:UInt32,
+    inNumberFrames:UInt32,
+    ioData:UnsafeMutablePointer<AudioBufferList>?) -> OSStatus {
 
-  var status = noErr
+    var status = noErr
 
-  let channelCount : UInt32 = 1
+    let channelCount : UInt32 = 1
 
-  var bufferList = AudioBufferList()
-  bufferList.mNumberBuffers = channelCount
-  let buffers = UnsafeMutableBufferPointer<AudioBuffer>(start: &bufferList.mBuffers,
-                                                        count: Int(bufferList.mNumberBuffers))
-  buffers[0].mNumberChannels = 1
-  buffers[0].mDataByteSize = inNumberFrames * 2
-  buffers[0].mData = nil
+    var bufferList = AudioBufferList()
+    bufferList.mNumberBuffers = channelCount
+    let buffers = UnsafeMutableBufferPointer<AudioBuffer>(start: &bufferList.mBuffers,
+                                                          count: Int(bufferList.mNumberBuffers))
+    buffers[0].mNumberChannels = 1
+    buffers[0].mDataByteSize = inNumberFrames * 2
+    buffers[0].mData = nil
 
-  // get the recorded samples
-  status = AudioUnitRender(AudioController.sharedInstance.remoteIOUnit!,
-                           ioActionFlags,
-                           inTimeStamp,
-                           inBusNumber,
-                           inNumberFrames,
-                           UnsafeMutablePointer<AudioBufferList>(&bufferList))
-  if (status != noErr) {
-    return status;
-  }
+    // get the recorded samples
+    status = AudioUnitRender(AudioController.sharedInstance.remoteIOUnit!,
+                             ioActionFlags,
+                             inTimeStamp,
+                             inBusNumber,
+                             inNumberFrames,
+                             UnsafeMutablePointer<AudioBufferList>(&bufferList))
+    if (status != noErr) {
+        return status;
+    }
 
-  let data = Data(bytes:  buffers[0].mData!, count: Int(buffers[0].mDataByteSize))
-  DispatchQueue.main.async {
-    AudioController.sharedInstance.delegate.processSampleData(data)
-  }
+    let data = Data(bytes:  buffers[0].mData!, count: Int(buffers[0].mDataByteSize))
+    DispatchQueue.main.async {
+        AudioController.sharedInstance.delegate.processSampleData(data)
+    }
 
-  return noErr
+    return noErr
 }
 
 class ViewController: UIViewController, AudioControllerDelegate {
@@ -207,8 +193,6 @@ class ViewController: UIViewController, AudioControllerDelegate {
         AudioController.sharedInstance.delegate = self
 
         let recordingSession = AVAudioSession.sharedInstance()
-        try? recordingSession.setCategory(.record)
-        try? recordingSession.setPreferredIOBufferDuration(10)
 
         recordingSession.requestRecordPermission { [weak self] (allowed) in
             DispatchQueue.main.async {
@@ -250,8 +234,7 @@ class ViewController: UIViewController, AudioControllerDelegate {
 
     func startRecording() {
         audioData = Data()
-        _ = AudioController.sharedInstance.prepare(specifiedSampleRate: Int(SAMPLE_RATE))
-        _ = AudioController.sharedInstance.start()
+        AudioController.sharedInstance.start()
 
         UIView.animate(withDuration: 0.02) { [weak self] in
             self?.recordButton.backgroundColor = .red
@@ -259,7 +242,7 @@ class ViewController: UIViewController, AudioControllerDelegate {
     }
 
     func stopRecording() {
-        _ = AudioController.sharedInstance.stop()
+        AudioController.sharedInstance.stop()
         speechService.stopStreaming()
 
         UIView.animate(withDuration: 0.02) { [weak self] in
@@ -280,11 +263,9 @@ class ViewController: UIViewController, AudioControllerDelegate {
         audioData.append(data)
 
         // We recommend sending samples in 100ms chunks
-        let chunkSize : Int /* bytes/chunk */ = Int(0.1 /* seconds/chunk */
-            * Double(SAMPLE_RATE) /* samples/second */
-            * 2 /* bytes/sample */);
+        let chunkSize : Int = Int(0.1 * Double(SAMPLE_RATE) * 2 )
 
-        if (audioData.count > chunkSize) {
+        if audioData.count > chunkSize {
             speechService.stream(audioData) { [weak self] response in
                 guard let self = self else { return }
                 let finished = response.speechEventType == .endOfSingleUtterance
@@ -297,7 +278,7 @@ class ViewController: UIViewController, AudioControllerDelegate {
                             self.textView.text = text
                         }
                     }, completion: { (_) in
-                         if finished { self.stopRecording(); self.isRecording.toggle() }
+                        if finished { self.stopRecording(); self.isRecording.toggle() }
                     })
 
 

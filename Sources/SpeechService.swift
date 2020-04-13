@@ -10,7 +10,7 @@ import Foundation
 import GRPC
 import NIOTransportServices
 
-let API_KEY = "AIzaSyCsGCeeiAM4l9Zj_NhJy8rAVuretCKFepI"
+let API_KEY = ""
 
 final class SpeechService {
 
