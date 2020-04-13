@@ -18,6 +18,7 @@ PODS:
     - SwiftNIOTransportServices (~> 1.0)
     - SwiftProtobuf (~> 1.8.0)
   - Logging (1.2.0)
+  - SnapKit (5.0.1)
   - SwiftNIO (2.15.0):
     - CNIOAtomics (= 2.15.0)
     - CNIODarwin (= 2.15.0)
@@ -59,6 +60,7 @@ PODS:
 
 DEPENDENCIES:
   - gRPC-Swift (= 1.0.0-alpha.11)
+  - SnapKit
 
 SPEC REPOS:
   trunk:
@@ -72,6 +74,7 @@ SPEC REPOS:
     - CNIOSHA1
     - gRPC-Swift
     - Logging
+    - SnapKit
     - SwiftNIO
     - SwiftNIOConcurrencyHelpers
     - SwiftNIOFoundationCompat
@@ -94,6 +97,7 @@ SPEC CHECKSUMS:
   CNIOSHA1: 7b1dcceef9682aef4c6578b9fc67f87a03f0c48e
   gRPC-Swift: af309f6e39b98cfd1d6a6dbfa369da6f5916598f
   Logging: 7838d379d234d7e5ae1265fa02804a9084caf04c
+  SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftNIO: c9889dcd8aed2655af9163b42fc11ebd4ce94252
   SwiftNIOConcurrencyHelpers: 2357037a16e9c51880c01b896a5ac3cd41066044
   SwiftNIOFoundationCompat: f09ee499a8a9c636ec9007f73c5a1cedc23dcad3
@@ -105,6 +109,6 @@ SPEC CHECKSUMS:
   SwiftNIOTransportServices: c7d36493d9bd18cbbc0115a1631533dfe1146e97
   SwiftProtobuf: 2cbd9409689b7df170d82a92a33443c8e3e14a70
 
-PODFILE CHECKSUM: 9ce54edb135b75ef6dafb345790b701ec43e6f75
+PODFILE CHECKSUM: f25d7c868b8a4ed3c788896b7dfe4ce70cc06e5c
 
 COCOAPODS: 1.8.4

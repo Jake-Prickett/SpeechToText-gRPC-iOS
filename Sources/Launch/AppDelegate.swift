@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import GRPC
+import Logging
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,6 +17,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        LoggingSystem.bootstrap {
+            var handler = StreamLogHandler.standardOutput(label: $0)
+            handler.logLevel = .debug
+            return handler
+        }
+        
         return true
     }
 
