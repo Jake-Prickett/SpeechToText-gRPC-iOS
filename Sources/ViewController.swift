@@ -11,142 +11,9 @@ import SnapKit
 import GRPC
 import AVFoundation
 
-let SAMPLE_RATE: Double = 16000
+class ViewController: UIViewController, StreamDelegate {
 
-protocol AudioControllerDelegate {
-    func processSampleData(_ data:Data) -> Void
-}
-
-class AudioController {
-    var remoteIOUnit: AudioComponentInstance?
-    var delegate : AudioControllerDelegate!
-
-    static var sharedInstance = AudioController()
-
-    deinit {
-        AudioComponentInstanceDispose(remoteIOUnit!);
-    }
-
-    func prepare(specifiedSampleRate: Int) {
-
-        var status = noErr
-
-        let session = AVAudioSession.sharedInstance()
-        try? session.setCategory(.record)
-        try? session.setPreferredIOBufferDuration(10)
-
-
-        var sampleRate = session.sampleRate
-        print("hardware sample rate = \(sampleRate), using specified rate = \(specifiedSampleRate)")
-        sampleRate = Double(specifiedSampleRate)
-
-        // Describe the RemoteIO unit
-        var audioComponentDescription = AudioComponentDescription()
-        audioComponentDescription.componentType = kAudioUnitType_Output;
-        audioComponentDescription.componentSubType = kAudioUnitSubType_RemoteIO;
-        audioComponentDescription.componentManufacturer = kAudioUnitManufacturer_Apple;
-        audioComponentDescription.componentFlags = 0;
-        audioComponentDescription.componentFlagsMask = 0;
-
-        // Get the RemoteIO unit
-        let remoteIOComponent = AudioComponentFindNext(nil, &audioComponentDescription)
-        status = AudioComponentInstanceNew(remoteIOComponent!, &remoteIOUnit)
-
-        let bus1 : AudioUnitElement = 1
-        var oneFlag : UInt32 = 1
-
-        // Configure the RemoteIO unit for input
-        status = AudioUnitSetProperty(remoteIOUnit!,
-                                      kAudioOutputUnitProperty_EnableIO,
-                                      kAudioUnitScope_Input,
-                                      bus1,
-                                      &oneFlag,
-                                      UInt32(MemoryLayout<UInt32>.size));
-
-        // Set format for mic input (bus 1) on RemoteIO's output scope
-        var asbd = AudioStreamBasicDescription()
-        asbd.mSampleRate = sampleRate
-        asbd.mFormatID = kAudioFormatLinearPCM
-        asbd.mFormatFlags = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked
-        asbd.mBytesPerPacket = 2
-        asbd.mFramesPerPacket = 1
-        asbd.mBytesPerFrame = 2
-        asbd.mChannelsPerFrame = 1
-        asbd.mBitsPerChannel = 16
-        status = AudioUnitSetProperty(remoteIOUnit!,
-                                      kAudioUnitProperty_StreamFormat,
-                                      kAudioUnitScope_Output,
-                                      bus1,
-                                      &asbd,
-                                      UInt32(MemoryLayout<AudioStreamBasicDescription>.size))
-
-        // Set the recording callback
-        var callbackStruct = AURenderCallbackStruct()
-        callbackStruct.inputProc = recordingCallback
-        callbackStruct.inputProcRefCon = nil
-        status = AudioUnitSetProperty(remoteIOUnit!,
-                                      kAudioOutputUnitProperty_SetInputCallback,
-                                      kAudioUnitScope_Global,
-                                      bus1,
-                                      &callbackStruct,
-                                      UInt32(MemoryLayout<AURenderCallbackStruct>.size))
-
-        // Initialize the RemoteIO unit
-        AudioUnitInitialize(remoteIOUnit!)
-    }
-
-    func start() {
-        prepare(specifiedSampleRate: Int(SAMPLE_RATE))
-        AudioOutputUnitStart(remoteIOUnit!)
-    }
-
-    func stop() {
-        AudioOutputUnitStop(remoteIOUnit!)
-    }
-}
-
-func recordingCallback(
-    inRefCon:UnsafeMutableRawPointer,
-    ioActionFlags:UnsafeMutablePointer<AudioUnitRenderActionFlags>,
-    inTimeStamp:UnsafePointer<AudioTimeStamp>,
-    inBusNumber:UInt32,
-    inNumberFrames:UInt32,
-    ioData:UnsafeMutablePointer<AudioBufferList>?) -> OSStatus {
-
-    var status = noErr
-
-    let channelCount : UInt32 = 1
-
-    var bufferList = AudioBufferList()
-    bufferList.mNumberBuffers = channelCount
-    let buffers = UnsafeMutableBufferPointer<AudioBuffer>(start: &bufferList.mBuffers,
-                                                          count: Int(bufferList.mNumberBuffers))
-    buffers[0].mNumberChannels = 1
-    buffers[0].mDataByteSize = inNumberFrames * 2
-    buffers[0].mData = nil
-
-    // get the recorded samples
-    status = AudioUnitRender(AudioController.sharedInstance.remoteIOUnit!,
-                             ioActionFlags,
-                             inTimeStamp,
-                             inBusNumber,
-                             inNumberFrames,
-                             UnsafeMutablePointer<AudioBufferList>(&bufferList))
-    if (status != noErr) {
-        return status;
-    }
-
-    let data = Data(bytes:  buffers[0].mData!, count: Int(buffers[0].mDataByteSize))
-    DispatchQueue.main.async {
-        AudioController.sharedInstance.delegate.processSampleData(data)
-    }
-
-    return noErr
-}
-
-class ViewController: UIViewController, AudioControllerDelegate {
-
-    lazy var recordButton: UIButton = {
+    private lazy var recordButton: UIButton = {
         var button = UIButton()
         button.setTitle("Record", for: .normal)
         button.setImage(UIImage(systemName: "mic"), for: .normal)
@@ -157,7 +24,7 @@ class ViewController: UIViewController, AudioControllerDelegate {
         return button
     }()
 
-    lazy var textView: UITextView = {
+    private lazy var textView: UITextView = {
         var textView = UITextView()
         textView.isEditable = false
         textView.isSelectable = false
@@ -167,18 +34,23 @@ class ViewController: UIViewController, AudioControllerDelegate {
         return textView
     }()
 
-    private let speechService: SpeechService
-    var isRecording: Bool = false
-    var audioData = Data()
+    private var isRecording: Bool = false
+    private var audioData = Data()
 
-    init(speechService: SpeechService) {
+    private let speechService: SpeechService
+    private let audioStreamManager: AudioStreamManager
+
+    init(speechService: SpeechService,
+         audioStreamManager: AudioStreamManager) {
         self.speechService = speechService
+        self.audioStreamManager = audioStreamManager
         
         super.init(nibName: nil, bundle: nil)
     }
 
     convenience init() {
-        self.init(speechService: SpeechService())
+        self.init(speechService: SpeechService(),
+                  audioStreamManager: AudioStreamManager.shared)
     }
 
     required init?(coder: NSCoder) {
@@ -187,10 +59,11 @@ class ViewController: UIViewController, AudioControllerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
         view.backgroundColor = .black
         title = "gRPC Speech To Text"
 
-        AudioController.sharedInstance.delegate = self
+        audioStreamManager.delegate = self
 
         let recordingSession = AVAudioSession.sharedInstance()
 
@@ -229,28 +102,6 @@ class ViewController: UIViewController, AudioControllerDelegate {
 
     @objc
     func recordTapped() {
-        toggle()
-    }
-
-    func startRecording() {
-        audioData = Data()
-        AudioController.sharedInstance.start()
-
-        UIView.animate(withDuration: 0.02) { [weak self] in
-            self?.recordButton.backgroundColor = .red
-        }
-    }
-
-    func stopRecording() {
-        AudioController.sharedInstance.stop()
-        speechService.stopStreaming()
-
-        UIView.animate(withDuration: 0.02) { [weak self] in
-            self?.recordButton.backgroundColor = .darkGray
-        }
-    }
-
-    func toggle() {
         if isRecording {
             stopRecording()
         } else {
@@ -259,29 +110,47 @@ class ViewController: UIViewController, AudioControllerDelegate {
         isRecording.toggle()
     }
 
-    func processSampleData(_ data: Data) -> Void {
+    func startRecording() {
+        audioData = Data()
+        audioStreamManager.start()
+
+        UIView.animate(withDuration: 0.02) { [weak self] in
+            self?.recordButton.backgroundColor = .red
+        }
+    }
+
+    func stopRecording() {
+        audioStreamManager.stop()
+        speechService.stopStreaming()
+
+        UIView.animate(withDuration: 0.02) { [weak self] in
+            self?.recordButton.backgroundColor = .darkGray
+        }
+    }
+
+    func process(_ data: Data) {
+
         audioData.append(data)
 
-        // We recommend sending samples in 100ms chunks
         let chunkSize : Int = Int(0.1 * Double(SAMPLE_RATE) * 2 )
 
         if audioData.count > chunkSize {
             speechService.stream(audioData) { [weak self] response in
                 guard let self = self else { return }
-                let finished = response.speechEventType == .endOfSingleUtterance
-                print(response)
 
                 DispatchQueue.main.async {
-                    UIView.transition(with: self.textView, duration: 0.25, options: .transitionCrossDissolve, animations: {
-                        guard let text = response.results.first?.alternatives.first?.transcript else { return }
-                        if self.textView.text != text {
-                            self.textView.text = text
-                        }
-                    }, completion: { (_) in
-                        if finished { self.stopRecording(); self.isRecording.toggle() }
-                    })
-
-
+                    UIView.transition(
+                        with: self.textView,
+                        duration: 0.25,
+                        options: .transitionCrossDissolve,
+                        animations: {
+                            guard let text = response.results.first?.alternatives.first?.transcript else { return }
+                            if self.textView.text != text {
+                                self.textView.text = text
+                            }
+                        },
+                        completion: nil
+                    )
                 }
             }
         }

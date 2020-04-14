@@ -14,16 +14,18 @@ let API_KEY = ""
 
 final class SpeechService {
 
-    private var client: Google_Cloud_Speech_V1_SpeechClient!
-    private var call: BidirectionalStreamingCall<Google_Cloud_Speech_V1_StreamingRecognizeRequest, Google_Cloud_Speech_V1_StreamingRecognizeResponse>!
+    private var client: Google_Cloud_Speech_V1_SpeechClient
+    private var call: BidirectionalStreamingCall<Google_Cloud_Speech_V1_StreamingRecognizeRequest, Google_Cloud_Speech_V1_StreamingRecognizeResponse>?
     private var isStreaming: Bool = false
 
     init() {
         let group = PlatformSupport.makeEventLoopGroup(loopCount: 1)
 
         var callOptions = CallOptions()
-        callOptions.customMetadata.add(name: "X-Goog-Api-Key", value: API_KEY)
-        callOptions.customMetadata.add(name: "X-Ios-Bundle-Identifier", value: "com.ford.SpeechToText-gRPC-iOS")
+        callOptions.customMetadata.add(name: "X-Goog-Api-Key",
+                                       value: API_KEY)
+        callOptions.customMetadata.add(name: "X-Ios-Bundle-Identifier",
+                                       value: "com.ford.SpeechToText-gRPC-iOS")
 
         let channel = ClientConnection
             .secure(group: group)
@@ -32,21 +34,14 @@ final class SpeechService {
         client = Google_Cloud_Speech_V1_SpeechClient(channel: channel, defaultCallOptions: callOptions)
     }
 
-    func stream(_ data: Data, completion: ((Google_Cloud_Speech_V1_StreamingRecognizeResponse)->Void)? = nil) {
+    func stream(_ data: Data,
+                completion: ((Google_Cloud_Speech_V1_StreamingRecognizeResponse) -> Void)? = nil) {
         if !isStreaming {
             call = client.streamingRecognize { (response) in
                 completion?(response)
             }
 
             isStreaming = true
-
-            call.status.whenSuccess { status in
-                if status.code == .ok {
-                    print("Stream Successfully Finished")
-                } else {
-                    print("Stream Failed: \(status)")
-                }
-            }
 
             let config = Google_Cloud_Speech_V1_RecognitionConfig.with {
                 $0.encoding = .linear16
@@ -67,18 +62,18 @@ final class SpeechService {
                 $0.streamingConfig = streamConfig
             }
 
-
-            _ = call.sendMessage(request)
+            _ = call?.sendMessage(request)
         }
 
         let streamAudioDataRequest = Google_Cloud_Speech_V1_StreamingRecognizeRequest.with {
             $0.audioContent = data
         }
-        _ = call.sendMessage(streamAudioDataRequest)
+
+        _ = call?.sendMessage(streamAudioDataRequest)
     }
 
     func stopStreaming() {
-        _ = call.sendEnd()
+        _ = call?.sendEnd()
         isStreaming.toggle()
     }
 

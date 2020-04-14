@@ -12,6 +12,7 @@
 		452435192444878400EF8317 /* status.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452435182444878400EF8317 /* status.pb.swift */; };
 		4524351B244487A900EF8317 /* operations.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4524351A244487A900EF8317 /* operations.grpc.swift */; };
 		4524351D244488CA00EF8317 /* operations.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4524351C244488CA00EF8317 /* operations.pb.swift */; };
+		45600AC42445365000180DCE /* AudioStreamManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45600AC32445365000180DCE /* AudioStreamManager.swift */; };
 		458EDDB32444997700BEBFD3 /* SpeechService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458EDDB22444997700BEBFD3 /* SpeechService.swift */; };
 		45EA4F3024439C2300622606 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EA4F2F24439C2300622606 /* AppDelegate.swift */; };
 		45EA4F3224439C2300622606 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EA4F3124439C2300622606 /* SceneDelegate.swift */; };
@@ -27,6 +28,7 @@
 		452435182444878400EF8317 /* status.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = status.pb.swift; sourceTree = "<group>"; };
 		4524351A244487A900EF8317 /* operations.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = operations.grpc.swift; sourceTree = "<group>"; };
 		4524351C244488CA00EF8317 /* operations.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = operations.pb.swift; sourceTree = "<group>"; };
+		45600AC32445365000180DCE /* AudioStreamManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioStreamManager.swift; sourceTree = "<group>"; };
 		458EDDB22444997700BEBFD3 /* SpeechService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechService.swift; sourceTree = "<group>"; };
 		45EA4F2C24439C2300622606 /* SpeechToText-gRPC-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SpeechToText-gRPC-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		45EA4F2F24439C2300622606 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 		4524351E244495D800EF8317 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
+				45EA4F3D24439C2400622606 /* Info.plist */,
 				45EA4F3824439C2400622606 /* Assets.xcassets */,
 			);
 			path = Configuration;
@@ -107,8 +110,8 @@
 				4524351E244495D800EF8317 /* Configuration */,
 				45243511244481B700EF8317 /* Protos */,
 				45EA4F3324439C2300622606 /* ViewController.swift */,
-				45EA4F3D24439C2400622606 /* Info.plist */,
 				458EDDB22444997700BEBFD3 /* SpeechService.swift */,
+				45600AC32445365000180DCE /* AudioStreamManager.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -244,6 +247,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45600AC42445365000180DCE /* AudioStreamManager.swift in Sources */,
 				45EA4F3424439C2300622606 /* ViewController.swift in Sources */,
 				45EA4F3024439C2300622606 /* AppDelegate.swift in Sources */,
 				4524351D244488CA00EF8317 /* operations.pb.swift in Sources */,
@@ -391,7 +395,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 24DLJQTAR9;
-				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Sources/Configuration/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -410,7 +414,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 24DLJQTAR9;
-				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Sources/Configuration/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
