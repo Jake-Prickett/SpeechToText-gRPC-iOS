@@ -6,24 +6,30 @@
 //  Copyright © 2020 Prickett, Jacob (J.A.). All rights reserved.
 //
 
+/* NOTE: Implementation based off of Google's for Audio Streaming:
+
+ https://github.com/GoogleCloudPlatform/ios-docs-samples/blob/master/speech/Swift/Speech-gRPC-Streaming/Speech/AudioController.swift
+
+ */
+
 import Foundation
 import AVFoundation
 
 protocol StreamDelegate: AnyObject {
-    func process(_ data: Data)
+    func processAudio(_ data: Data)
 }
-
-let SAMPLE_RATE: Double = 16000
 
 class AudioStreamManager {
 
     var remoteIOUnit: AudioComponentInstance?
-    weak var delegate : StreamDelegate?
+    weak var delegate: StreamDelegate?
 
     static var shared = AudioStreamManager()
 
     deinit {
-        AudioComponentInstanceDispose(remoteIOUnit!);
+        if let remoteIOUnit = remoteIOUnit {
+            AudioComponentInstanceDispose(remoteIOUnit)
+        }
     }
 
     func configure(sampleRate: Double) {
@@ -91,7 +97,7 @@ class AudioStreamManager {
     }
 
     func start() {
-        configure(sampleRate: SAMPLE_RATE)
+        configure(sampleRate: Constants.kSampleRate)
         guard let remoteIOUnit = remoteIOUnit else { return }
         AudioOutputUnitStart(remoteIOUnit)
     }
@@ -138,7 +144,7 @@ func recordingCallback(
     guard let bytes = buffers[0].mData else { fatalError() }
     let data = Data(bytes:  bytes, count: Int(buffers[0].mDataByteSize))
     DispatchQueue.main.async {
-        AudioStreamManager.shared.delegate?.process(data)
+        AudioStreamManager.shared.delegate?.processAudio(data)
     }
 
     return noErr

@@ -6,19 +6,19 @@
 //  Copyright © 2020 Prickett, Jacob (J.A.). All rights reserved.
 //
 
+import GRPC
 import UIKit
 import SnapKit
-import GRPC
 import AVFoundation
 
-class ViewController: UIViewController, StreamDelegate {
+final class ViewController: UIViewController {
 
     private lazy var recordButton: UIButton = {
         var button = UIButton()
         button.setTitle("Record", for: .normal)
         button.setImage(UIImage(systemName: "mic"), for: .normal)
         button.backgroundColor = .darkGray
-        button.layer.cornerRadius = 10
+        button.layer.cornerRadius = 15
         button.clipsToBounds = true
         button.addTarget(self, action: #selector(recordTapped), for: .touchUpInside)
         return button
@@ -35,7 +35,7 @@ class ViewController: UIViewController, StreamDelegate {
     }()
 
     private var isRecording: Bool = false
-    private var audioData = Data()
+    private var audioData: Data = Data()
 
     private let speechService: SpeechService
     private let audioStreamManager: AudioStreamManager
@@ -79,7 +79,15 @@ class ViewController: UIViewController, StreamDelegate {
     }
 
     func setupRecordingLayout() {
+        view.addSubview(textView)
         view.addSubview(recordButton)
+
+        textView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.topMargin)
+            make.left.right.equalToSuperview()
+            make.bottom.equalTo(recordButton.snp.top)
+        }
+
         recordButton.snp.makeConstraints { make in
             make.height.equalTo(50)
             make.left.equalTo(40)
@@ -87,17 +95,11 @@ class ViewController: UIViewController, StreamDelegate {
             make.bottom.equalToSuperview().inset(100)
             make.centerX.equalToSuperview()
         }
-
-        view.addSubview(textView)
-        textView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.topMargin)
-            make.left.right.equalToSuperview()
-            make.bottom.equalTo(recordButton.snp.top)
-        }
     }
 
     func setupErrorLayout() {
-
+        textView.text = "Microphone Permissions are required in order to use this App."
+        recordButton.isEnabled = false
     }
 
     @objc
@@ -127,14 +129,18 @@ class ViewController: UIViewController, StreamDelegate {
             self?.recordButton.backgroundColor = .darkGray
         }
     }
+}
 
-    func process(_ data: Data) {
-
+extension ViewController: StreamDelegate {
+    func processAudio(_ data: Data) {
         audioData.append(data)
 
-        let chunkSize : Int = Int(0.1 * Double(SAMPLE_RATE) * 2 )
+        // 100 ms chunk size
+        let chunkSize: Int = Int(0.1 * Constants.kSampleRate * 2)
 
+        // When the audio data gets big enough
         if audioData.count > chunkSize {
+            // Send to server
             speechService.stream(audioData) { [weak self] response in
                 guard let self = self else { return }
 
@@ -144,11 +150,14 @@ class ViewController: UIViewController, StreamDelegate {
                         duration: 0.25,
                         options: .transitionCrossDissolve,
                         animations: {
-                            guard let text = response.results.first?.alternatives.first?.transcript else { return }
+                            guard
+                                let results = response.results.first,
+                                let text = results.alternatives.first?.transcript else { return }
+
                             if self.textView.text != text {
                                 self.textView.text = text
                             }
-                        },
+                    },
                         completion: nil
                     )
                 }

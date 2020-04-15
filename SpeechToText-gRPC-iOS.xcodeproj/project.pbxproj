@@ -14,6 +14,7 @@
 		4524351D244488CA00EF8317 /* operations.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4524351C244488CA00EF8317 /* operations.pb.swift */; };
 		45600AC42445365000180DCE /* AudioStreamManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45600AC32445365000180DCE /* AudioStreamManager.swift */; };
 		458EDDB32444997700BEBFD3 /* SpeechService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458EDDB22444997700BEBFD3 /* SpeechService.swift */; };
+		45A75D542446506000ACB73B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A75D532446506000ACB73B /* Constants.swift */; };
 		45EA4F3024439C2300622606 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EA4F2F24439C2300622606 /* AppDelegate.swift */; };
 		45EA4F3224439C2300622606 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EA4F3124439C2300622606 /* SceneDelegate.swift */; };
 		45EA4F3424439C2300622606 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EA4F3324439C2300622606 /* ViewController.swift */; };
@@ -30,7 +31,8 @@
 		4524351C244488CA00EF8317 /* operations.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = operations.pb.swift; sourceTree = "<group>"; };
 		45600AC32445365000180DCE /* AudioStreamManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioStreamManager.swift; sourceTree = "<group>"; };
 		458EDDB22444997700BEBFD3 /* SpeechService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechService.swift; sourceTree = "<group>"; };
-		45EA4F2C24439C2300622606 /* SpeechToText-gRPC-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SpeechToText-gRPC-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		45A75D532446506000ACB73B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		45EA4F2C24439C2300622606 /* gRPC Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "gRPC Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		45EA4F2F24439C2300622606 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		45EA4F3124439C2300622606 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		45EA4F3324439C2300622606 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -98,7 +100,7 @@
 		45EA4F2D24439C2300622606 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				45EA4F2C24439C2300622606 /* SpeechToText-gRPC-iOS.app */,
+				45EA4F2C24439C2300622606 /* gRPC Example.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -112,6 +114,7 @@
 				45EA4F3324439C2300622606 /* ViewController.swift */,
 				458EDDB22444997700BEBFD3 /* SpeechService.swift */,
 				45600AC32445365000180DCE /* AudioStreamManager.swift */,
+				45A75D532446506000ACB73B /* Constants.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -152,7 +155,7 @@
 			);
 			name = "SpeechToText-gRPC-iOS";
 			productName = "SpeechToText-gRPC-iOS";
-			productReference = 45EA4F2C24439C2300622606 /* SpeechToText-gRPC-iOS.app */;
+			productReference = 45EA4F2C24439C2300622606 /* gRPC Example.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -255,6 +258,7 @@
 				4524351B244487A900EF8317 /* operations.grpc.swift in Sources */,
 				458EDDB32444997700BEBFD3 /* SpeechService.swift in Sources */,
 				45EA4F3224439C2300622606 /* SceneDelegate.swift in Sources */,
+				45A75D542446506000ACB73B /* Constants.swift in Sources */,
 				452435192444878400EF8317 /* status.pb.swift in Sources */,
 				45243517244486C800EF8317 /* cloud_speech.pb.swift in Sources */,
 			);
@@ -401,7 +405,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ford.SpeechToText-gRPC-iOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "gRPC Example";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -420,7 +424,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ford.SpeechToText-gRPC-iOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "gRPC Example";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
