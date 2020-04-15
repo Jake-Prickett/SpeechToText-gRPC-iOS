@@ -2,7 +2,7 @@
 
 ## Description
 
-This application is intended to demonstrate how to leverage gRPC to perform Bidirectional Streaming by converting streamed audio into text. 
+This application is intended to demonstrate how to leverage gRPC and Bidirectional Streaming to converting streamed audio into text in an iOS Application 
 
 ## Technologies
 
