@@ -2,13 +2,13 @@
 
 ## Description
 
-This application is intended to demonstrate how to leverage gRPC and Bidirectional Streaming to converting streamed audio into text in an iOS Application 
+This application demonstrates how to leverage gRPC and Bidirectional Streaming for converting streamed audio into text using gRPC Swift (built on top of SwiftNIO)
 
 ## Technologies
 
 * [gRPC Swift](https://github.com/grpc/grpc-swift)
-* [SnapKit](https://github.com/SnapKit/SnapKit)
 * [Google Speech-To-Text API](https://cloud.google.com/speech-to-text)
+* [SnapKit](https://github.com/SnapKit/SnapKit)
 
 ## Acquiring an API Key
 This project requires a Google Cloud API Key. Please [register](https://cloud.google.com/apis/docs/getting-started) and [create an API key](https://cloud.google.com/docs/authentication/api-keys) in order to consume the API.
