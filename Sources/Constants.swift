@@ -9,6 +9,9 @@
 import Foundation
 
 struct Constants {
+    
     static let kSampleRate: Double = 16000
-    static let kAPIKey = ""
+
+    #warning("Please enter your API key below")
+    static let kAPIKey = "AIzaSyCsGCeeiAM4l9Zj_NhJy8rAVuretCKFepI"
 }

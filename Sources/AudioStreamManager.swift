@@ -21,52 +21,86 @@ protocol StreamDelegate: AnyObject {
 
 class AudioStreamManager {
 
-    var remoteIOUnit: AudioComponentInstance?
+    var microphoneUnit: AudioComponentInstance?
     weak var delegate: StreamDelegate?
 
     static var shared = AudioStreamManager()
 
+    private let bus1: AudioUnitElement = 1
+    private var oneFlag: UInt32 = 1
+
     deinit {
-        if let remoteIOUnit = remoteIOUnit {
+        if let remoteIOUnit = microphoneUnit {
             AudioComponentInstanceDispose(remoteIOUnit)
         }
     }
 
-    func configure(sampleRate: Double) {
+    func configure() {
 
-        let session = AVAudioSession.sharedInstance()
-        try? session.setCategory(.record)
-        try? session.setPreferredIOBufferDuration(10)
+        configureAudioSession()
 
-        // Describe the RemoteIO unit
-        var audioComponentDescription = AudioComponentDescription()
-        audioComponentDescription.componentType = kAudioUnitType_Output;
-        audioComponentDescription.componentSubType = kAudioUnitSubType_RemoteIO;
-        audioComponentDescription.componentManufacturer = kAudioUnitManufacturer_Apple;
-        audioComponentDescription.componentFlags = 0;
-        audioComponentDescription.componentFlagsMask = 0;
+        var audioComponentDescription = describeComponent()
 
         // Get the RemoteIO unit
         guard let remoteIOComponent = AudioComponentFindNext(nil, &audioComponentDescription) else {
             return
         }
-        AudioComponentInstanceNew(remoteIOComponent, &remoteIOUnit)
+        AudioComponentInstanceNew(remoteIOComponent, &microphoneUnit)
 
-        let bus1 : AudioUnitElement = 1
-        var oneFlag : UInt32 = 1
+        configureMicrophoneForInput()
 
-        guard let remoteIOUnit = remoteIOUnit else { return }
-        // Configure the RemoteIO unit for input
-        AudioUnitSetProperty(remoteIOUnit,
+        setFormatForMicrophone()
+
+        setCallback()
+
+        if let microphoneUnit = microphoneUnit {
+            AudioUnitInitialize(microphoneUnit)
+        }
+    }
+
+    func start() {
+        configure()
+        guard let remoteIOUnit = microphoneUnit else { return }
+        AudioOutputUnitStart(remoteIOUnit)
+    }
+
+    func stop() {
+        guard let remoteIOUnit = microphoneUnit else { return }
+        AudioOutputUnitStop(remoteIOUnit)
+    }
+
+    private func configureAudioSession() {
+        let session = AVAudioSession.sharedInstance()
+        try? session.setCategory(.record)
+        try? session.setPreferredIOBufferDuration(10)
+    }
+
+    private func describeComponent() -> AudioComponentDescription {
+        var description = AudioComponentDescription()
+        description.componentType = kAudioUnitType_Output
+        description.componentSubType = kAudioUnitSubType_RemoteIO
+        description.componentManufacturer = kAudioUnitManufacturer_Apple
+        description.componentFlags = 0
+        description.componentFlagsMask = 0
+        return description
+    }
+
+    private func configureMicrophoneForInput() {
+        guard let microphoneUnit = microphoneUnit else { return }
+
+        AudioUnitSetProperty(microphoneUnit,
                              kAudioOutputUnitProperty_EnableIO,
                              kAudioUnitScope_Input,
                              bus1,
                              &oneFlag,
-                             UInt32(MemoryLayout<UInt32>.size));
+                             UInt32(MemoryLayout<UInt32>.size))
+    }
 
-        // Set format for mic input (bus 1) on RemoteIO's output scope
+    private func setFormatForMicrophone() {
+        guard let microphoneUnit = microphoneUnit else { return }
+
         var asbd = AudioStreamBasicDescription()
-        asbd.mSampleRate = Double(sampleRate)
+        asbd.mSampleRate = Double(Constants.kSampleRate)
         asbd.mFormatID = kAudioFormatLinearPCM
         asbd.mFormatFlags = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked
         asbd.mBytesPerPacket = 2
@@ -74,37 +108,26 @@ class AudioStreamManager {
         asbd.mBytesPerFrame = 2
         asbd.mChannelsPerFrame = 1
         asbd.mBitsPerChannel = 16
-        AudioUnitSetProperty(remoteIOUnit,
+        AudioUnitSetProperty(microphoneUnit,
                              kAudioUnitProperty_StreamFormat,
                              kAudioUnitScope_Output,
                              bus1,
                              &asbd,
                              UInt32(MemoryLayout<AudioStreamBasicDescription>.size))
-
-        // Set the recording callback
-        var callbackStruct = AURenderCallbackStruct()
-        callbackStruct.inputProc = recordingCallback
-        callbackStruct.inputProcRefCon = nil
-        AudioUnitSetProperty(remoteIOUnit,
-                             kAudioOutputUnitProperty_SetInputCallback,
-                             kAudioUnitScope_Global,
-                             bus1,
-                             &callbackStruct,
-                             UInt32(MemoryLayout<AURenderCallbackStruct>.size))
-
-        // Initialize the RemoteIO unit
-        AudioUnitInitialize(remoteIOUnit)
     }
 
-    func start() {
-        configure(sampleRate: Constants.kSampleRate)
-        guard let remoteIOUnit = remoteIOUnit else { return }
-        AudioOutputUnitStart(remoteIOUnit)
-    }
+    private func setCallback() {
+        guard let microphoneUnit = microphoneUnit else { return }
 
-    func stop() {
-        guard let remoteIOUnit = remoteIOUnit else { return }
-        AudioOutputUnitStop(remoteIOUnit)
+         var callbackStruct = AURenderCallbackStruct()
+         callbackStruct.inputProc = recordingCallback
+         callbackStruct.inputProcRefCon = nil
+         AudioUnitSetProperty(microphoneUnit,
+                              kAudioOutputUnitProperty_SetInputCallback,
+                              kAudioUnitScope_Global,
+                              bus1,
+                              &callbackStruct,
+                              UInt32(MemoryLayout<AURenderCallbackStruct>.size))
     }
 }
 
@@ -130,7 +153,7 @@ func recordingCallback(
     buffers[0].mData = nil
 
     // get the recorded samples
-    guard let remoteIOUnit = AudioStreamManager.shared.remoteIOUnit else { fatalError() }
+    guard let remoteIOUnit = AudioStreamManager.shared.microphoneUnit else { fatalError() }
     status = AudioUnitRender(remoteIOUnit,
                              ioActionFlags,
                              inTimeStamp,
@@ -138,7 +161,7 @@ func recordingCallback(
                              inNumberFrames,
                              UnsafeMutablePointer<AudioBufferList>(&bufferList))
     if (status != noErr) {
-        return status;
+        return status
     }
 
     guard let bytes = buffers[0].mData else { fatalError() }
