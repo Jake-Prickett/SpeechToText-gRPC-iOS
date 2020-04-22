@@ -3,6 +3,7 @@
 ## Description
 
 This application demonstrates Bidirectional Streaming to convert streamed audio data into text and display the Server processing live using gRPC Swift, built on top of SwiftNIO.
+
 Check out the [Medium Article](https://medium.com/macoclock/bidirectional-streaming-with-grpc-swift-d11496ea0b3)!
 
 ## Technologies
