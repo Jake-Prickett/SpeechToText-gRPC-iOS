@@ -30,8 +30,8 @@ class AudioStreamManager {
     private var oneFlag: UInt32 = 1
 
     deinit {
-        if let remoteIOUnit = microphoneUnit {
-            AudioComponentInstanceDispose(remoteIOUnit)
+        if let microphoneUnit = microphoneUnit {
+            AudioComponentInstanceDispose(microphoneUnit)
         }
     }
 
@@ -41,10 +41,10 @@ class AudioStreamManager {
 
         var audioComponentDescription = describeComponent()
 
-        // Get the RemoteIO unit
         guard let remoteIOComponent = AudioComponentFindNext(nil, &audioComponentDescription) else {
             return
         }
+
         AudioComponentInstanceNew(remoteIOComponent, &microphoneUnit)
 
         configureMicrophoneForInput()
@@ -60,13 +60,13 @@ class AudioStreamManager {
 
     func start() {
         configure()
-        guard let remoteIOUnit = microphoneUnit else { return }
-        AudioOutputUnitStart(remoteIOUnit)
+        guard let microphoneUnit = microphoneUnit else { return }
+        AudioOutputUnitStart(microphoneUnit)
     }
 
     func stop() {
-        guard let remoteIOUnit = microphoneUnit else { return }
-        AudioOutputUnitStop(remoteIOUnit)
+        guard let microphoneUnit = microphoneUnit else { return }
+        AudioOutputUnitStop(microphoneUnit)
     }
 
     private func configureAudioSession() {
@@ -99,6 +99,10 @@ class AudioStreamManager {
     private func setFormatForMicrophone() {
         guard let microphoneUnit = microphoneUnit else { return }
 
+        /*
+         Configure Audio format to match initial message sent
+         over bidirectional stream. Config and below must match.
+         */
         var asbd = AudioStreamBasicDescription()
         asbd.mSampleRate = Double(Constants.kSampleRate)
         asbd.mFormatID = kAudioFormatLinearPCM
