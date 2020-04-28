@@ -7,13 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		45243516244486C800EF8317 /* cloud_speech.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45243514244486C800EF8317 /* cloud_speech.grpc.swift */; };
-		45243517244486C800EF8317 /* cloud_speech.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45243515244486C800EF8317 /* cloud_speech.pb.swift */; };
-		452435192444878400EF8317 /* status.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452435182444878400EF8317 /* status.pb.swift */; };
-		4524351B244487A900EF8317 /* operations.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4524351A244487A900EF8317 /* operations.grpc.swift */; };
-		4524351D244488CA00EF8317 /* operations.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4524351C244488CA00EF8317 /* operations.pb.swift */; };
 		45600AC42445365000180DCE /* AudioStreamManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45600AC32445365000180DCE /* AudioStreamManager.swift */; };
 		458EDDB32444997700BEBFD3 /* SpeechService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458EDDB22444997700BEBFD3 /* SpeechService.swift */; };
+		45A6D4F82457CA700038EA68 /* operations.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A6D4F02457CA700038EA68 /* operations.grpc.swift */; };
+		45A6D4F92457CA700038EA68 /* cloud_speech.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A6D4F12457CA700038EA68 /* cloud_speech.pb.swift */; };
+		45A6D4FA2457CA700038EA68 /* annotations.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A6D4F22457CA700038EA68 /* annotations.pb.swift */; };
+		45A6D4FB2457CA700038EA68 /* operations.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A6D4F32457CA700038EA68 /* operations.pb.swift */; };
+		45A6D4FC2457CA700038EA68 /* status.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A6D4F42457CA700038EA68 /* status.pb.swift */; };
+		45A6D4FD2457CA700038EA68 /* http.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A6D4F52457CA700038EA68 /* http.pb.swift */; };
+		45A6D4FE2457CA700038EA68 /* client.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A6D4F62457CA700038EA68 /* client.pb.swift */; };
+		45A6D4FF2457CA700038EA68 /* cloud_speech.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A6D4F72457CA700038EA68 /* cloud_speech.grpc.swift */; };
 		45A75D542446506000ACB73B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A75D532446506000ACB73B /* Constants.swift */; };
 		45EA4F3024439C2300622606 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EA4F2F24439C2300622606 /* AppDelegate.swift */; };
 		45EA4F3224439C2300622606 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EA4F3124439C2300622606 /* SceneDelegate.swift */; };
@@ -24,13 +27,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		45243514244486C800EF8317 /* cloud_speech.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cloud_speech.grpc.swift; sourceTree = "<group>"; };
-		45243515244486C800EF8317 /* cloud_speech.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cloud_speech.pb.swift; sourceTree = "<group>"; };
-		452435182444878400EF8317 /* status.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = status.pb.swift; sourceTree = "<group>"; };
-		4524351A244487A900EF8317 /* operations.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = operations.grpc.swift; sourceTree = "<group>"; };
-		4524351C244488CA00EF8317 /* operations.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = operations.pb.swift; sourceTree = "<group>"; };
 		45600AC32445365000180DCE /* AudioStreamManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioStreamManager.swift; sourceTree = "<group>"; };
 		458EDDB22444997700BEBFD3 /* SpeechService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechService.swift; sourceTree = "<group>"; };
+		45A6D4F02457CA700038EA68 /* operations.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = operations.grpc.swift; sourceTree = "<group>"; };
+		45A6D4F12457CA700038EA68 /* cloud_speech.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cloud_speech.pb.swift; sourceTree = "<group>"; };
+		45A6D4F22457CA700038EA68 /* annotations.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = annotations.pb.swift; sourceTree = "<group>"; };
+		45A6D4F32457CA700038EA68 /* operations.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = operations.pb.swift; sourceTree = "<group>"; };
+		45A6D4F42457CA700038EA68 /* status.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = status.pb.swift; sourceTree = "<group>"; };
+		45A6D4F52457CA700038EA68 /* http.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = http.pb.swift; sourceTree = "<group>"; };
+		45A6D4F62457CA700038EA68 /* client.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = client.pb.swift; sourceTree = "<group>"; };
+		45A6D4F72457CA700038EA68 /* cloud_speech.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cloud_speech.grpc.swift; sourceTree = "<group>"; };
 		45A75D532446506000ACB73B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		45EA4F2C24439C2300622606 /* gRPC Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "gRPC Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		45EA4F2F24439C2300622606 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -56,18 +62,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		45243511244481B700EF8317 /* Protos */ = {
-			isa = PBXGroup;
-			children = (
-				45243514244486C800EF8317 /* cloud_speech.grpc.swift */,
-				45243515244486C800EF8317 /* cloud_speech.pb.swift */,
-				4524351A244487A900EF8317 /* operations.grpc.swift */,
-				4524351C244488CA00EF8317 /* operations.pb.swift */,
-				452435182444878400EF8317 /* status.pb.swift */,
-			);
-			path = Protos;
-			sourceTree = "<group>";
-		};
 		4524351E244495D800EF8317 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
@@ -85,6 +79,21 @@
 				45EA4F3124439C2300622606 /* SceneDelegate.swift */,
 			);
 			path = Launch;
+			sourceTree = "<group>";
+		};
+		45A6D4E12457C7780038EA68 /* Generated */ = {
+			isa = PBXGroup;
+			children = (
+				45A6D4F22457CA700038EA68 /* annotations.pb.swift */,
+				45A6D4F62457CA700038EA68 /* client.pb.swift */,
+				45A6D4F72457CA700038EA68 /* cloud_speech.grpc.swift */,
+				45A6D4F12457CA700038EA68 /* cloud_speech.pb.swift */,
+				45A6D4F52457CA700038EA68 /* http.pb.swift */,
+				45A6D4F02457CA700038EA68 /* operations.grpc.swift */,
+				45A6D4F32457CA700038EA68 /* operations.pb.swift */,
+				45A6D4F42457CA700038EA68 /* status.pb.swift */,
+			);
+			path = Generated;
 			sourceTree = "<group>";
 		};
 		45EA4F2324439C2300622606 = {
@@ -110,7 +119,7 @@
 			children = (
 				4524351F244495EC00EF8317 /* Launch */,
 				4524351E244495D800EF8317 /* Configuration */,
-				45243511244481B700EF8317 /* Protos */,
+				45A6D4E12457C7780038EA68 /* Generated */,
 				45EA4F3324439C2300622606 /* ViewController.swift */,
 				458EDDB22444997700BEBFD3 /* SpeechService.swift */,
 				45600AC32445365000180DCE /* AudioStreamManager.swift */,
@@ -251,16 +260,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				45600AC42445365000180DCE /* AudioStreamManager.swift in Sources */,
+				45A6D4FC2457CA700038EA68 /* status.pb.swift in Sources */,
 				45EA4F3424439C2300622606 /* ViewController.swift in Sources */,
+				45A6D4FB2457CA700038EA68 /* operations.pb.swift in Sources */,
+				45A6D4FD2457CA700038EA68 /* http.pb.swift in Sources */,
 				45EA4F3024439C2300622606 /* AppDelegate.swift in Sources */,
-				4524351D244488CA00EF8317 /* operations.pb.swift in Sources */,
-				45243516244486C800EF8317 /* cloud_speech.grpc.swift in Sources */,
-				4524351B244487A900EF8317 /* operations.grpc.swift in Sources */,
+				45A6D4F82457CA700038EA68 /* operations.grpc.swift in Sources */,
 				458EDDB32444997700BEBFD3 /* SpeechService.swift in Sources */,
+				45A6D4FE2457CA700038EA68 /* client.pb.swift in Sources */,
 				45EA4F3224439C2300622606 /* SceneDelegate.swift in Sources */,
+				45A6D4F92457CA700038EA68 /* cloud_speech.pb.swift in Sources */,
 				45A75D542446506000ACB73B /* Constants.swift in Sources */,
-				452435192444878400EF8317 /* status.pb.swift in Sources */,
-				45243517244486C800EF8317 /* cloud_speech.pb.swift in Sources */,
+				45A6D4FF2457CA700038EA68 /* cloud_speech.grpc.swift in Sources */,
+				45A6D4FA2457CA700038EA68 /* annotations.pb.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
