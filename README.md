@@ -17,14 +17,12 @@ This project requires a Google Cloud API Key. Please [register](https://cloud.go
 
 ## Project Setup
 1. Clone the repository
-2. Navigate to the root directory and run `pod install`
+2. Navigate to the root directory
 3. Run `make protos` to pull the most recent .proto files from the googleapis repository
 4. run `make generate` to leverage the `protoc` plugin to generate the Swift interfaces
-5. Open the `.xworkspace`
+5. Open the `.xcodeproj`
 6. Open the `Constants.swift` file and assign your generated Google Cloud API Key to the `kAPIKey` variable.
 7. Run the application!
 
 ## Helpful Links
 * [Getting Started with Speech APIs](https://cloud.google.com/speech-to-text/docs/quickstart)
-* [CocoaPods](https://cocoapods.org/)
-* [gRPC-Swift CocoaPod](https://cocoapods.org/pods/gRPC-Swift)
