@@ -7,10 +7,13 @@
 //
 
 import GRPC
+import Foundation
+import Logging
 
 typealias Request = Google_Cloud_Speech_V1_StreamingRecognizeRequest
 typealias Response = Google_Cloud_Speech_V1_StreamingRecognizeResponse
 typealias StreamingRecognizeCall = BidirectionalStreamingCall
+typealias RecognitionConfig = Google_Cloud_Speech_V1_RecognitionConfig
 
 final class SpeechService {
   // Track whether we are currently streaming or not
@@ -24,6 +27,8 @@ final class SpeechService {
 
   // Track if we are streaming or not
   private var state: State = .idle
+  
+  private let logger: Logger = Logger(label: "com.demo.speech-grpc")
 
   init() {
     precondition(!Constants.apiKey.isEmpty, "Please refer to the README on how to configure your API Key properly.")
@@ -34,7 +39,8 @@ final class SpeechService {
 
     // Create a connection secured with TLS to Google's speech service running on our `EventLoopGroup`
     let channel = ClientConnection
-      .secure(group: group)
+      .usingPlatformAppropriateTLS(for: group)
+      .withBackgroundActivityLogger(logger)
       .connect(host: "speech.googleapis.com", port: 443)
 
     // Specify call options to be used for gRPC calls
@@ -47,7 +53,7 @@ final class SpeechService {
   }
 
   func stream(_ data: Data,
-              completion: ((Google_Cloud_Speech_V1_StreamingRecognizeResponse) -> Void)? = nil) {
+              completion: ((Response) -> Void)? = nil) {
     switch self.state {
     case .idle:
       // Initialize the bidirectional stream
@@ -59,7 +65,7 @@ final class SpeechService {
       self.state = .streaming(call)
 
       // Specify audio details
-      let config = Google_Cloud_Speech_V1_RecognitionConfig.with {
+      let config: RecognitionConfig = .with {
         $0.encoding = .linear16
         $0.sampleRateHertz = Int32(Constants.sampleRate)
         $0.languageCode = "en-US"
@@ -72,7 +78,7 @@ final class SpeechService {
       }
 
       // Create streaming request
-      let request = Google_Cloud_Speech_V1_StreamingRecognizeRequest.with {
+      let request = Request.with {
         $0.streamingConfig = Google_Cloud_Speech_V1_StreamingRecognitionConfig.with {
           $0.config = config
         }
@@ -82,7 +88,7 @@ final class SpeechService {
       call.sendMessage(request, promise: nil)
 
       // Stream request to send that contains the audio details
-      let streamAudioDataRequest = Google_Cloud_Speech_V1_StreamingRecognizeRequest.with {
+      let streamAudioDataRequest = Request.with {
         $0.audioContent = data
       }
 
@@ -91,7 +97,7 @@ final class SpeechService {
 
     case .streaming(let call):
       // Stream request to send that contains the audio details
-      let streamAudioDataRequest = Google_Cloud_Speech_V1_StreamingRecognizeRequest.with {
+      let streamAudioDataRequest = Request.with {
         $0.audioContent = data
       }
 
