@@ -3,18 +3,17 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		45600AC42445365000180DCE /* AudioStreamManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45600AC32445365000180DCE /* AudioStreamManager.swift */; };
 		458EDDB32444997700BEBFD3 /* SpeechService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458EDDB22444997700BEBFD3 /* SpeechService.swift */; };
 		45A75D542446506000ACB73B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A75D532446506000ACB73B /* Constants.swift */; };
-		45EA4F3024439C2300622606 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EA4F2F24439C2300622606 /* AppDelegate.swift */; };
-		45EA4F3224439C2300622606 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EA4F3124439C2300622606 /* SceneDelegate.swift */; };
-		45EA4F3424439C2300622606 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EA4F3324439C2300622606 /* ViewController.swift */; };
 		45EA4F3924439C2400622606 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 45EA4F3824439C2400622606 /* Assets.xcassets */; };
-		45EA4F3C24439C2400622606 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 45EA4F3A24439C2400622606 /* LaunchScreen.storyboard */; };
+		AA000001000000000000000A /* SpeechToTextApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000001000000000000000F /* SpeechToTextApp.swift */; };
+		AA000002000000000000000A /* SpeechToTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002000000000000000F /* SpeechToTextView.swift */; };
+		AA000003000000000000000A /* SpeechViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000003000000000000000F /* SpeechViewModel.swift */; };
+		AA000004000000000000000A /* AudioCaptureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000004000000000000000F /* AudioCaptureManager.swift */; };
 		E7726D7B282887B3006686BE /* cloud_speech.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7726D73282887B3006686BE /* cloud_speech.grpc.swift */; };
 		E7726D7C282887B3006686BE /* status.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7726D74282887B3006686BE /* status.pb.swift */; };
 		E7726D7D282887B3006686BE /* cloud_speech.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7726D75282887B3006686BE /* cloud_speech.pb.swift */; };
@@ -23,22 +22,42 @@
 		E7726D80282887B3006686BE /* http.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7726D78282887B3006686BE /* http.pb.swift */; };
 		E7726D81282887B3006686BE /* operations.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7726D79282887B3006686BE /* operations.pb.swift */; };
 		E7726D82282887B3006686BE /* client.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7726D7A282887B3006686BE /* client.pb.swift */; };
-		E7726D8528288825006686BE /* GRPC in Frameworks */ = {isa = PBXBuildFile; productRef = E7726D8428288825006686BE /* GRPC */; };
-		E7726D8828288850006686BE /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = E7726D8728288850006686BE /* SnapKit */; };
 		E7DB07D128288C160049B966 /* resource.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DB07D028288C160049B966 /* resource.pb.swift */; };
+		AA100001000000000000000A /* field_behavior.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100001000000000000000F /* field_behavior.pb.swift */; };
+		AA100002000000000000000A /* field_behavior.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100002000000000000000F /* field_behavior.grpc.swift */; };
+		AA100003000000000000000A /* annotations.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100003000000000000000F /* annotations.grpc.swift */; };
+		AA100004000000000000000A /* client.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100004000000000000000F /* client.grpc.swift */; };
+		AA100005000000000000000A /* http.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100005000000000000000F /* http.grpc.swift */; };
+		AA100006000000000000000A /* resource.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100006000000000000000F /* resource.grpc.swift */; };
+		AA100007000000000000000A /* status.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100007000000000000000F /* status.grpc.swift */; };
+		AA100008000000000000000A /* launch_stage.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100008000000000000000F /* launch_stage.pb.swift */; };
+		AA100009000000000000000A /* launch_stage.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100009000000000000000F /* launch_stage.grpc.swift */; };
+		BB000001000000000000000A /* GRPCCore in Frameworks */ = {isa = PBXBuildFile; productRef = BB000001000000000000000F /* GRPCCore */; };
+		BB000002000000000000000A /* GRPCNIOTransportHTTP2 in Frameworks */ = {isa = PBXBuildFile; productRef = BB000002000000000000000F /* GRPCNIOTransportHTTP2 */; };
+		BB000003000000000000000A /* GRPCProtobuf in Frameworks */ = {isa = PBXBuildFile; productRef = BB000003000000000000000F /* GRPCProtobuf */; };
+		DD000001000000000000000A /* SpeechViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD000001000000000000000F /* SpeechViewModelTests.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		DD000010000000000000000F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 45EA4F2424439C2300622606 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 45EA4F2B24439C2300622606;
+			remoteInfo = "SpeechToText-gRPC-iOS";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
-		45600AC32445365000180DCE /* AudioStreamManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioStreamManager.swift; sourceTree = "<group>"; };
 		458EDDB22444997700BEBFD3 /* SpeechService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechService.swift; sourceTree = "<group>"; };
 		45A75D532446506000ACB73B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		45EA4F2C24439C2300622606 /* gRPC Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "gRPC Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		45EA4F2F24439C2300622606 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		45EA4F3124439C2300622606 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		45EA4F3324439C2300622606 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		45EA4F3824439C2400622606 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		45EA4F3B24439C2400622606 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		45EA4F3D24439C2400622606 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AA000001000000000000000F /* SpeechToTextApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechToTextApp.swift; sourceTree = "<group>"; };
+		AA000002000000000000000F /* SpeechToTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechToTextView.swift; sourceTree = "<group>"; };
+		AA000003000000000000000F /* SpeechViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechViewModel.swift; sourceTree = "<group>"; };
+		AA000004000000000000000F /* AudioCaptureManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioCaptureManager.swift; sourceTree = "<group>"; };
 		E7726D73282887B3006686BE /* cloud_speech.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cloud_speech.grpc.swift; sourceTree = "<group>"; };
 		E7726D74282887B3006686BE /* status.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = status.pb.swift; sourceTree = "<group>"; };
 		E7726D75282887B3006686BE /* cloud_speech.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cloud_speech.pb.swift; sourceTree = "<group>"; };
@@ -48,6 +67,17 @@
 		E7726D79282887B3006686BE /* operations.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = operations.pb.swift; sourceTree = "<group>"; };
 		E7726D7A282887B3006686BE /* client.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = client.pb.swift; sourceTree = "<group>"; };
 		E7DB07D028288C160049B966 /* resource.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = resource.pb.swift; sourceTree = "<group>"; };
+		AA100001000000000000000F /* field_behavior.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = field_behavior.pb.swift; sourceTree = "<group>"; };
+		AA100002000000000000000F /* field_behavior.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = field_behavior.grpc.swift; sourceTree = "<group>"; };
+		AA100003000000000000000F /* annotations.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = annotations.grpc.swift; sourceTree = "<group>"; };
+		AA100004000000000000000F /* client.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = client.grpc.swift; sourceTree = "<group>"; };
+		AA100005000000000000000F /* http.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = http.grpc.swift; sourceTree = "<group>"; };
+		AA100006000000000000000F /* resource.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = resource.grpc.swift; sourceTree = "<group>"; };
+		AA100007000000000000000F /* status.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = status.grpc.swift; sourceTree = "<group>"; };
+		AA100008000000000000000F /* launch_stage.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = launch_stage.pb.swift; sourceTree = "<group>"; };
+		AA100009000000000000000F /* launch_stage.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = launch_stage.grpc.swift; sourceTree = "<group>"; };
+		DD000001000000000000000F /* SpeechViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechViewModelTests.swift; sourceTree = "<group>"; };
+		DD000002000000000000000F /* SpeechToText-gRPC-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SpeechToText-gRPC-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,8 +85,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E7726D8528288825006686BE /* GRPC in Frameworks */,
-				E7726D8828288850006686BE /* SnapKit in Frameworks */,
+				BB000001000000000000000A /* GRPCCore in Frameworks */,
+				BB000002000000000000000A /* GRPCNIOTransportHTTP2 in Frameworks */,
+				BB000003000000000000000A /* GRPCProtobuf in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD000003000000000000000F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,20 +110,11 @@
 			path = Configuration;
 			sourceTree = "<group>";
 		};
-		4524351F244495EC00EF8317 /* Launch */ = {
-			isa = PBXGroup;
-			children = (
-				45EA4F3A24439C2400622606 /* LaunchScreen.storyboard */,
-				45EA4F2F24439C2300622606 /* AppDelegate.swift */,
-				45EA4F3124439C2300622606 /* SceneDelegate.swift */,
-			);
-			path = Launch;
-			sourceTree = "<group>";
-		};
 		45EA4F2324439C2300622606 = {
 			isa = PBXGroup;
 			children = (
 				45EA4F2E24439C2300622606 /* Sources */,
+				DD000005000000000000000F /* Tests */,
 				45EA4F2D24439C2300622606 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -94,6 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				45EA4F2C24439C2300622606 /* gRPC Example.app */,
+				DD000002000000000000000F /* SpeechToText-gRPC-iOSTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -102,27 +132,45 @@
 			isa = PBXGroup;
 			children = (
 				E7726D72282887B3006686BE /* Generated */,
-				4524351F244495EC00EF8317 /* Launch */,
 				4524351E244495D800EF8317 /* Configuration */,
-				45EA4F3324439C2300622606 /* ViewController.swift */,
+				AA000001000000000000000F /* SpeechToTextApp.swift */,
+				AA000002000000000000000F /* SpeechToTextView.swift */,
+				AA000003000000000000000F /* SpeechViewModel.swift */,
 				458EDDB22444997700BEBFD3 /* SpeechService.swift */,
-				45600AC32445365000180DCE /* AudioStreamManager.swift */,
+				AA000004000000000000000F /* AudioCaptureManager.swift */,
 				45A75D532446506000ACB73B /* Constants.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
 		};
+		DD000005000000000000000F /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				DD000001000000000000000F /* SpeechViewModelTests.swift */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
 		E7726D72282887B3006686BE /* Generated */ = {
 			isa = PBXGroup;
 			children = (
+				AA100003000000000000000F /* annotations.grpc.swift */,
 				E7726D76282887B3006686BE /* annotations.pb.swift */,
+				AA100004000000000000000F /* client.grpc.swift */,
 				E7726D7A282887B3006686BE /* client.pb.swift */,
 				E7726D73282887B3006686BE /* cloud_speech.grpc.swift */,
 				E7726D75282887B3006686BE /* cloud_speech.pb.swift */,
+				AA100002000000000000000F /* field_behavior.grpc.swift */,
+				AA100001000000000000000F /* field_behavior.pb.swift */,
+				AA100005000000000000000F /* http.grpc.swift */,
 				E7726D78282887B3006686BE /* http.pb.swift */,
+				AA100009000000000000000F /* launch_stage.grpc.swift */,
+				AA100008000000000000000F /* launch_stage.pb.swift */,
 				E7726D77282887B3006686BE /* operations.grpc.swift */,
 				E7726D79282887B3006686BE /* operations.pb.swift */,
+				AA100006000000000000000F /* resource.grpc.swift */,
 				E7DB07D028288C160049B966 /* resource.pb.swift */,
+				AA100007000000000000000F /* status.grpc.swift */,
 				E7726D74282887B3006686BE /* status.pb.swift */,
 			);
 			path = Generated;
@@ -145,12 +193,30 @@
 			);
 			name = "SpeechToText-gRPC-iOS";
 			packageProductDependencies = (
-				E7726D8428288825006686BE /* GRPC */,
-				E7726D8728288850006686BE /* SnapKit */,
+				BB000001000000000000000F /* GRPCCore */,
+				BB000002000000000000000F /* GRPCNIOTransportHTTP2 */,
+				BB000003000000000000000F /* GRPCProtobuf */,
 			);
 			productName = "SpeechToText-gRPC-iOS";
 			productReference = 45EA4F2C24439C2300622606 /* gRPC Example.app */;
 			productType = "com.apple.product-type.application";
+		};
+		DD000006000000000000000F /* SpeechToText-gRPC-iOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD000007000000000000000F /* Build configuration list for PBXNativeTarget "SpeechToText-gRPC-iOSTests" */;
+			buildPhases = (
+				DD000004000000000000000F /* Sources */,
+				DD000003000000000000000F /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DD000011000000000000000F /* PBXTargetDependency */,
+			);
+			name = "SpeechToText-gRPC-iOSTests";
+			productName = "SpeechToText-gRPC-iOSTests";
+			productReference = DD000002000000000000000F /* SpeechToText-gRPC-iOSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -158,17 +224,21 @@
 		45EA4F2424439C2300622606 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1130;
-				LastUpgradeCheck = 1130;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
 				ORGANIZATIONNAME = "Prickett, Jacob (J.A.)";
 				TargetAttributes = {
 					45EA4F2B24439C2300622606 = {
-						CreatedOnToolsVersion = 11.3;
+						CreatedOnToolsVersion = 16.0;
+					};
+					DD000006000000000000000F = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = 45EA4F2B24439C2300622606;
 					};
 				};
 			};
 			buildConfigurationList = 45EA4F2724439C2300622606 /* Build configuration list for PBXProject "SpeechToText-gRPC-iOS" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -177,14 +247,15 @@
 			);
 			mainGroup = 45EA4F2324439C2300622606;
 			packageReferences = (
-				E7726D8328288825006686BE /* XCRemoteSwiftPackageReference "grpc-swift" */,
-				E7726D8628288850006686BE /* XCRemoteSwiftPackageReference "SnapKit" */,
+				CC000002000000000000000F /* XCRemoteSwiftPackageReference "grpc-swift-nio-transport" */,
+				CC000003000000000000000F /* XCRemoteSwiftPackageReference "grpc-swift-protobuf" */,
 			);
 			productRefGroup = 45EA4F2D24439C2300622606 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				45EA4F2B24439C2300622606 /* SpeechToText-gRPC-iOS */,
+				DD000006000000000000000F /* SpeechToText-gRPC-iOSTests */,
 			);
 		};
 /* End PBXProject section */
@@ -194,7 +265,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				45EA4F3C24439C2400622606 /* LaunchScreen.storyboard in Resources */,
 				45EA4F3924439C2400622606 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -206,36 +276,50 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				45600AC42445365000180DCE /* AudioStreamManager.swift in Sources */,
-				45EA4F3424439C2300622606 /* ViewController.swift in Sources */,
-				E7DB07D128288C160049B966 /* resource.pb.swift in Sources */,
-				E7726D7D282887B3006686BE /* cloud_speech.pb.swift in Sources */,
-				E7726D81282887B3006686BE /* operations.pb.swift in Sources */,
-				45EA4F3024439C2300622606 /* AppDelegate.swift in Sources */,
-				E7726D80282887B3006686BE /* http.pb.swift in Sources */,
-				E7726D7F282887B3006686BE /* operations.grpc.swift in Sources */,
-				E7726D82282887B3006686BE /* client.pb.swift in Sources */,
+				AA000001000000000000000A /* SpeechToTextApp.swift in Sources */,
+				AA000002000000000000000A /* SpeechToTextView.swift in Sources */,
+				AA000003000000000000000A /* SpeechViewModel.swift in Sources */,
+				AA000004000000000000000A /* AudioCaptureManager.swift in Sources */,
 				458EDDB32444997700BEBFD3 /* SpeechService.swift in Sources */,
-				45EA4F3224439C2300622606 /* SceneDelegate.swift in Sources */,
-				E7726D7B282887B3006686BE /* cloud_speech.grpc.swift in Sources */,
-				E7726D7C282887B3006686BE /* status.pb.swift in Sources */,
 				45A75D542446506000ACB73B /* Constants.swift in Sources */,
+				E7726D7B282887B3006686BE /* cloud_speech.grpc.swift in Sources */,
+				E7726D7D282887B3006686BE /* cloud_speech.pb.swift in Sources */,
+				E7726D7F282887B3006686BE /* operations.grpc.swift in Sources */,
+				E7726D81282887B3006686BE /* operations.pb.swift in Sources */,
 				E7726D7E282887B3006686BE /* annotations.pb.swift in Sources */,
+				E7726D80282887B3006686BE /* http.pb.swift in Sources */,
+				E7726D82282887B3006686BE /* client.pb.swift in Sources */,
+				E7726D7C282887B3006686BE /* status.pb.swift in Sources */,
+				E7DB07D128288C160049B966 /* resource.pb.swift in Sources */,
+				AA100001000000000000000A /* field_behavior.pb.swift in Sources */,
+				AA100002000000000000000A /* field_behavior.grpc.swift in Sources */,
+				AA100003000000000000000A /* annotations.grpc.swift in Sources */,
+				AA100004000000000000000A /* client.grpc.swift in Sources */,
+				AA100005000000000000000A /* http.grpc.swift in Sources */,
+				AA100006000000000000000A /* resource.grpc.swift in Sources */,
+				AA100007000000000000000A /* status.grpc.swift in Sources */,
+				AA100008000000000000000A /* launch_stage.pb.swift in Sources */,
+				AA100009000000000000000A /* launch_stage.grpc.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD000004000000000000000F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD000001000000000000000A /* SpeechViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXVariantGroup section */
-		45EA4F3A24439C2400622606 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				45EA4F3B24439C2400622606 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
+/* Begin PBXTargetDependency section */
+		DD000011000000000000000F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 45EA4F2B24439C2300622606 /* SpeechToText-gRPC-iOS */;
+			targetProxy = DD000010000000000000000F /* PBXContainerItemProxy */;
 		};
-/* End PBXVariantGroup section */
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		45EA4F3E24439C2400622606 /* Debug */ = {
@@ -244,7 +328,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -274,7 +358,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -288,13 +372,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = complete;
 			};
 			name = Debug;
 		};
@@ -304,7 +389,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -334,7 +419,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -342,12 +427,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = complete;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -359,14 +445,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 24DLJQTAR9;
 				INFOPLIST_FILE = "$(SRCROOT)/Sources/Configuration/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.jakeprickett.SpeechToText-gRPC-iOS";
 				PRODUCT_NAME = "gRPC Example";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -378,15 +464,57 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 24DLJQTAR9;
 				INFOPLIST_FILE = "$(SRCROOT)/Sources/Configuration/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.jakeprickett.SpeechToText-gRPC-iOS";
 				PRODUCT_NAME = "gRPC Example";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		DD000008000000000000000F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 24DLJQTAR9;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jakeprickett.SpeechToText-gRPC-iOSTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/gRPC Example.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/gRPC Example";
+			};
+			name = Debug;
+		};
+		DD000009000000000000000F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 24DLJQTAR9;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jakeprickett.SpeechToText-gRPC-iOSTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/gRPC Example.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/gRPC Example";
 			};
 			name = Release;
 		};
@@ -411,37 +539,50 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
+		DD000007000000000000000F /* Build configuration list for PBXNativeTarget "SpeechToText-gRPC-iOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD000008000000000000000F /* Debug */,
+				DD000009000000000000000F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		E7726D8328288825006686BE /* XCRemoteSwiftPackageReference "grpc-swift" */ = {
+		CC000002000000000000000F /* XCRemoteSwiftPackageReference "grpc-swift-nio-transport" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/grpc/grpc-swift.git";
+			repositoryURL = "https://github.com/grpc/grpc-swift-nio-transport.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
+				minimumVersion = 2.0.0;
 			};
 		};
-		E7726D8628288850006686BE /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+		CC000003000000000000000F /* XCRemoteSwiftPackageReference "grpc-swift-protobuf" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			repositoryURL = "https://github.com/grpc/grpc-swift-protobuf.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
+				minimumVersion = 2.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		E7726D8428288825006686BE /* GRPC */ = {
+		BB000001000000000000000F /* GRPCCore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = E7726D8328288825006686BE /* XCRemoteSwiftPackageReference "grpc-swift" */;
-			productName = GRPC;
+			productName = GRPCCore;
 		};
-		E7726D8728288850006686BE /* SnapKit */ = {
+		BB000002000000000000000F /* GRPCNIOTransportHTTP2 */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = E7726D8628288850006686BE /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = SnapKit;
+			package = CC000002000000000000000F /* XCRemoteSwiftPackageReference "grpc-swift-nio-transport" */;
+			productName = GRPCNIOTransportHTTP2;
+		};
+		BB000003000000000000000F /* GRPCProtobuf */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CC000003000000000000000F /* XCRemoteSwiftPackageReference "grpc-swift-protobuf" */;
+			productName = GRPCProtobuf;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

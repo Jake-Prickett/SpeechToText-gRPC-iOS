@@ -28,6 +28,16 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "DD000006000000000000000F"
+               BuildableName = "SpeechToText-gRPC-iOSTests.xctest"
+               BlueprintName = "SpeechToText-gRPC-iOSTests"
+               ReferencedContainer = "container:SpeechToText-gRPC-iOS.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
