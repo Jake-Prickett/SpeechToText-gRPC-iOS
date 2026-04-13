@@ -4,15 +4,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-iOS app demonstrating bidirectional gRPC streaming for real-time speech-to-text using Google's Cloud Speech API. Built with gRPC Swift on SwiftNIO, it captures microphone audio and streams 100ms chunks to Google's API, displaying transcription results live.
+iOS app demonstrating bidirectional gRPC streaming for real-time speech-to-text using Google's Cloud Speech API. Built with gRPC Swift v2 (async/await), SwiftUI, and Swift 6 strict concurrency. Captures microphone audio via AVAudioEngine and streams 100ms chunks to Google's API, displaying transcription results live.
 
 ## Build & Run
 
-This is an Xcode project using Swift Package Manager for dependencies. No CocoaPods or Carthage.
+This is an Xcode project using Swift Package Manager for dependencies.
 
 ```bash
 # Generate protobuf Swift files (required before first build)
 make protos      # Downloads googleapis .proto files
+make plugins     # Builds v2 protoc plugins from source
 make generate    # Runs protoc to generate Swift bindings
 
 # Clean generated files
@@ -20,35 +21,47 @@ make clean
 ```
 
 Build and run via Xcode (Cmd+R). Requires:
-- Xcode 11.3+, Swift 5.0, iOS 15.0+
+- Xcode 16+, Swift 6, iOS 18.0+
 - A Google Cloud API key set in `Sources/Constants.swift` (`Constants.apiKey`)
 - Microphone permission (configured in Info.plist)
 
-There are no test targets in this project.
+## Running Tests
+
+```bash
+xcodebuild -project SpeechToText-gRPC-iOS.xcodeproj \
+  -scheme SpeechToText-gRPC-iOS \
+  -destination 'platform=iOS Simulator,name=iPhone 16' \
+  test
+```
+
+Tests use Swift Testing framework (`import Testing`, `@Test`, `#expect`). All hardware dependencies (audio, gRPC) are mocked via protocols.
 
 ## Architecture
 
-Three main components with clear separation of concerns:
+Four main components with clear separation of concerns:
 
-- **SpeechService** (`Sources/SpeechService.swift`) — gRPC client that manages a bidirectional stream to `speech.googleapis.com:443`. Handles TLS channel setup, streaming state (idle/active), and first-message config (LINEAR16, 16kHz, en-US). Uses typealiases over generated protobuf types.
+- **SpeechService** (`Sources/SpeechService.swift`) — Actor-based gRPC client using `withGRPCClient` for bidirectional streaming to `speech.googleapis.com:443`. Accepts `AsyncStream<Data>` of audio, returns `AsyncStream<String>` of transcripts. Conforms to `SpeechServiceProtocol` for testability.
 
-- **AudioStreamManager** (`Sources/AudioStreamManager.swift`) — Singleton that captures microphone audio via RemoteIO Audio Unit. Configures audio session for recording (16-bit linear PCM, 16kHz, mono). Uses a C-style callback that dispatches to main thread via `StreamDelegate` protocol.
+- **AudioCaptureManager** (`Sources/AudioCaptureManager.swift`) — `@MainActor` class that captures microphone audio via `AVAudioEngine`. Exposes audio as `AsyncStream<Data>`. Conforms to `AudioCaptureManaging` protocol for testability.
 
-- **ViewController** (`Sources/ViewController.swift`) — Programmatic UI (no storyboards) using SnapKit for layout. Accepts SpeechService and AudioStreamManager via dependency injection. Implements StreamDelegate to receive audio chunks and forward them to SpeechService.
+- **SpeechViewModel** (`Sources/SpeechViewModel.swift`) — `@Observable @MainActor` view model that orchestrates audio capture and transcription. Owns the speech service and audio manager via protocol abstractions.
 
-**Data flow:** Microphone → AudioStreamManager (callback) → ViewController (delegate) → SpeechService (gRPC stream) → Google API → completion closure → UI update
+- **SpeechToTextView** (`Sources/SpeechToTextView.swift`) — SwiftUI view with live transcription display and record/stop button.
+
+**Data flow:** Microphone → AudioCaptureManager (AVAudioEngine tap) → AsyncStream<Data> → SpeechService (gRPC bidirectional stream) → AsyncStream<String> → SpeechViewModel → SwiftUI view
 
 ## Dependencies (SPM)
 
-- **grpc-swift** (>= 1.0.0) — gRPC framework with SwiftNIO transport
-- **SnapKit** (>= 5.0.0) — Auto-layout DSL
+- **grpc-swift-nio-transport** (>= 2.0.0) — HTTP/2 transport (brings in GRPCCore transitively)
+- **grpc-swift-protobuf** (>= 2.0.0) — Protobuf serialization for gRPC Swift v2
 
-Generated protobuf files live in `Sources/` (e.g., `cloud_speech.grpc.swift`, `cloud_speech.pb.swift`).
+Generated protobuf files live in `Sources/Generated/`.
 
 ## Key Patterns
 
-- Dependency injection in ViewController constructor (with convenience default init)
-- Delegation pattern for audio data flow (StreamDelegate)
-- State enum in SpeechService tracks idle vs active streaming
-- All UI updates dispatched to main thread
-- `preconditionFailure` enforces API key configuration at init time
+- Protocol-based dependency injection (`SpeechServiceProtocol`, `AudioCaptureManaging`) for testability
+- Actor isolation for `SpeechService` (inherently `Sendable`)
+- `@MainActor` for UI-bound types (`AudioCaptureManager`, `SpeechViewModel`)
+- `AsyncStream` for both audio data flow and transcript delivery
+- `precondition` enforces API key configuration at stream time (not init, to support test host)
+- Swift 6 strict concurrency (`SWIFT_STRICT_CONCURRENCY = complete`)

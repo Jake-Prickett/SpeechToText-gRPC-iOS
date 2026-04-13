@@ -10,12 +10,12 @@ final class SpeechViewModel {
   var errorMessage: String?
 
   private let speechService: any SpeechServiceProtocol
-  private let audioCaptureManager: AudioCaptureManager
+  private let audioCaptureManager: any AudioCaptureManaging
   private var streamingTask: Task<Void, Never>?
 
   init(
     speechService: any SpeechServiceProtocol = SpeechService(),
-    audioCaptureManager: AudioCaptureManager = AudioCaptureManager()
+    audioCaptureManager: any AudioCaptureManaging = AudioCaptureManager()
   ) {
     self.speechService = speechService
     self.audioCaptureManager = audioCaptureManager

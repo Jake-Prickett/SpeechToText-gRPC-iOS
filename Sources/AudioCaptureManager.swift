@@ -7,7 +7,14 @@ enum AudioCaptureError: Error, Sendable {
 }
 
 @MainActor
-final class AudioCaptureManager: Sendable {
+protocol AudioCaptureManaging: Sendable {
+  var audioStream: AsyncStream<Data> { get }
+  func start() throws
+  func stop()
+}
+
+@MainActor
+final class AudioCaptureManager: AudioCaptureManaging, Sendable {
   private let engine = AVAudioEngine()
 
   var audioStream: AsyncStream<Data> {

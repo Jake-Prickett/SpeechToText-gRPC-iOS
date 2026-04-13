@@ -19,6 +19,16 @@ struct MockSpeechService: SpeechServiceProtocol {
   }
 }
 
+@MainActor
+struct MockAudioCaptureManager: AudioCaptureManaging {
+  var audioStream: AsyncStream<Data> {
+    AsyncStream { $0.finish() }
+  }
+
+  func start() throws {}
+  func stop() {}
+}
+
 @Suite("SpeechViewModel Tests")
 struct SpeechViewModelTests {
 
@@ -27,7 +37,7 @@ struct SpeechViewModelTests {
   func initialState() {
     let viewModel = SpeechViewModel(
       speechService: MockSpeechService(),
-      audioCaptureManager: AudioCaptureManager()
+      audioCaptureManager: MockAudioCaptureManager()
     )
     #expect(viewModel.isRecording == false)
     #expect(viewModel.transcribedText == "")
@@ -39,7 +49,7 @@ struct SpeechViewModelTests {
   func toggleRecordingUpdatesState() async throws {
     let viewModel = SpeechViewModel(
       speechService: MockSpeechService(transcripts: ["Hello"]),
-      audioCaptureManager: AudioCaptureManager()
+      audioCaptureManager: MockAudioCaptureManager()
     )
     // Grant permission first (simulated by directly setting)
     viewModel.permissionGranted = true
@@ -56,7 +66,7 @@ struct SpeechViewModelTests {
   func transcriptionUpdates() async throws {
     let viewModel = SpeechViewModel(
       speechService: MockSpeechService(transcripts: ["Hello", "Hello world"]),
-      audioCaptureManager: AudioCaptureManager()
+      audioCaptureManager: MockAudioCaptureManager()
     )
     viewModel.permissionGranted = true
 
@@ -73,7 +83,7 @@ struct SpeechViewModelTests {
   func stopCancelsTask() async throws {
     let viewModel = SpeechViewModel(
       speechService: MockSpeechService(transcripts: []),
-      audioCaptureManager: AudioCaptureManager()
+      audioCaptureManager: MockAudioCaptureManager()
     )
     viewModel.permissionGranted = true
 
